@@ -10,8 +10,9 @@ Open source under the [MIT License](http://en.wikipedia.org/wiki/MIT_License).
 
 Ext.define( 'Deft.promise.Promise',
 	alternateClassName: [ 'Deft.Promise' ]
-	
+
 	statics:
+
 		###*
 		Returns a new {@link Deft.promise.Promise} with the specified callbacks registered to be called:
 		- immediately for the specified value, or
@@ -24,7 +25,7 @@ Ext.define( 'Deft.promise.Promise',
 				deferred = Ext.create( 'Deft.promise.Deferred' )
 				deferred.resolve( promiseOrValue )
 				return deferred.then( callbacks )
-		
+
 		###*
 		Returns a new {@link Deft.promise.Promise} that will only resolve once all the specified `promisesOrValues` have resolved.
 		The resolution value will be an Array containing the resolution value of each of the `promisesOrValues`.
@@ -32,16 +33,16 @@ Ext.define( 'Deft.promise.Promise',
 		all: ( promisesOrValues, callbacks ) ->
 			results = new Array( promisesOrValues.length )
 			promise = @reduce( promisesOrValues, @reduceIntoArray, results )
-			
+
 			return @when( promise, callbacks )
-		
+
 		###*
 		Returns a new {@link Deft.promise.Promise} that will only resolve once any one of the the specified `promisesOrValues` has resolved.
 		The resolution value will be the resolution value of the triggering `promiseOrValue`.
 		###
 		any: ( promisesOrValues, callbacks ) ->
 			deferred = Ext.create( 'Deft.promise.Deferred' )
-			
+
 			updater = ( progress ) ->
 				deferred.update( progress )
 				return
@@ -53,20 +54,20 @@ Ext.define( 'Deft.promise.Promise',
 				complete()
 				deferred.reject( error )
 				return
-			
+
 			complete = ->
 				updater = resolver = rejecter = -> return
-				
+
 			resolveFunction  = ( value ) -> resolver( value )
 			rejectFunction   = ( value ) -> rejector( value )
 			progressFunction = ( value ) -> updater( value )
-			
+
 			for promiseOrValue, index in promisesOrValues
 				if index of promisesOrValues
 					@when( promiseOrValue, resolveFunction, rejectFunction, progressFunction )
-			
+
 			return deferred.then( callbacks )
-		
+
 		###*
 		Traditional map function, similar to `Array.prototype.map()`, that allows input to contain promises and/or values.
 		The specified map function may return either a value or a promise.
@@ -77,10 +78,10 @@ Ext.define( 'Deft.promise.Promise',
 			for promiseOrValue, index in promisesOrValues
 				if index of promisesOrValues
 					results[ index ] = @when( promiseOrValue, mapFunction )
-				
+
 			# Then use reduce() to collect all the results.
 			return @reduce( results, @reduceIntoArray, results )
-		
+
 		###*
 		Traditional reduce function, similar to `Array.reduce()`, that allows input to contain promises and/or values.
 		###
@@ -95,12 +96,12 @@ Ext.define( 'Deft.promise.Promise',
 						)
 					)
 			]
-			
+
 			if ( arguments.length is 3 )
 				reduceArguments.push( initialValue )
-			
+
 			return @when( @reduceArray.apply( promisesOrValues, reduceArguments ) )
-		
+
 		###*
 		Fallback implementation when Array.reduce is not available.
 		@private
@@ -115,7 +116,7 @@ Ext.define( 'Deft.promise.Promise',
 			array = Object( @ )
 			length = array.length >>> 0
 			args = arguments
-			
+
 			# If no initialValue, use first item of array (we know length !== 0 here) and adjust index to start at second item
 			if args.length <= 1
 				# Skip to the first real element in the array
@@ -129,52 +130,54 @@ Ext.define( 'Deft.promise.Promise',
 			else
 				# If initialValue provided, use it
 				reduced = args[ 1 ]
-			
+
 			# Do the actual reduce
 			while index < length
 				# Skip holes
 				if index of array
 					reduced = reduceFunction( reduced, array[ index ], index, array )
 				index++
-			
+
 			return reduced
-		
+
 		###*
 		@private
 		###
 		reduceIntoArray: ( previousValue, currentValue, currentIndex ) ->
 			previousValue[ currentIndex ] = currentValue
 			return previousValue
-	
+
 	constructor: ( deferred ) ->
 		@deferred = deferred
 		return @
-	
+
 	###*
 	Returns a new {@link Deft.promise.Promise} with the specified callbacks registered to be called when this {@link Deft.promise.Promise} is resolved, rejected, updated or cancelled.
 	###
 	then: ( callbacks ) ->
 		return @deferred.then.apply( @deferred, arguments )
-	
+
 	###*
 	Returns a new {@link Deft.promise.Promise} with the specified callback registered to be called when this {@link Deft.promise.Promise} is resolved, rejected or cancelled.
-	###	
+	###
 	always: ( callback ) ->
 		return @deferred.always( callback )
-	
+
 	###*
 	Cancel this {@link Deft.promise.Promise} and notify relevant callbacks.
 	###
 	cancel: ( reason ) ->
 		return @deferred.cancel( reason )
-	
+
 	###*
 	Get this {@link Deft.promise.Promise}'s current state.
 	###
 	getState: ->
 		return @deferred.getState()
 ,
+	# Callback invoked after the Ext.define() completes
 	->
+
 		# Use native reduce implementation, if available.
 		if Array::reduce?
 			@reduceArray = Array::reduce
