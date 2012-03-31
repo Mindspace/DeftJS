@@ -1,0 +1,45 @@
+{ exec } = require 'child_process'
+
+
+DEFT_BUILD    = "."
+DEFT_SRC      = "../src/coffee/Deft"
+DEFT_JS       = "#{DEFT_BUILD}/js/Deft"
+DEFT_JOIN     = "#{DEFT_BUILD}/js/Deft/deft-all.js"
+DEFT_LIB      = "#{DEFT_BUILD}/deft-all.js"
+
+# TODO: Remove - temporarily added until next build of coffee-script is released.
+TOOLS = "/usr/local/bin"
+
+
+# -------------------------------------------------------------
+# Compile Coffeescript to Javascript
+# -------------------------------------------------------------
+
+task "watch", "Compiles Coffescript to JavaScript... no joins or minifications", ->
+
+	#
+	# Build single-file Traverse application engine
+	#
+	console.log "Compiling DeftJS classes"
+	exec "mkdir #{ DEFT_BUILD }/js"
+	exec "#{ TOOLS }/coffee -o #{ DEFT_BUILD }/js -wc #{ DEFT_SRC }", ( error, stdout, stderr ) ->
+		console.log stdout + stderr if stdout or stderr
+		if error
+			throw error
+
+
+task "build", "Compiles Coffescript & Less... no joins or minifications", ->
+
+	console.log "Compiling DeftJS classes"
+	exec "#{ TOOLS }/coffee -o #{ DEFT_JS }  -c #{ DEFT_SRC }", ( error, stdout, stderr ) ->
+		console.log stdout + stderr if stdout or stderr
+		if error
+			throw error
+		else
+			exec "#{ TOOLS }/coffee --join #{ DEFT_LIB } --output #{ DEFT_JS } --compile #{ DEFT_SRC }/ioc #{ DEFT_SRC }/mvc #{ DEFT_SRC }/mixin #{ DEFT_SRC }/promise #{ DEFT_SRC }/util #{ DEFT_SRC }/overrides" , ( error, stdout, stderr ) ->
+				console.log stdout + stderr if stdout or stderr
+				if error
+					throw error
+				else
+					exec "cp  #{ DEFT_JOIN } #{ DEFT_LIB }"
+					exec "rm #{ DEFT_JOIN }"
