@@ -54,7 +54,7 @@ Ext.define( 'Deft.overrides.data.proxy.Ajax',
 		request = @buildRequest( operation );
 		request = @getWriter()?.write( request ) if operation.allowWrite()
 
-		Deft.defer( (dfd) ->
+		Deft.defer( (dfd) =>
 
 			Ext.apply( request,
 				headers       : @headers
@@ -63,8 +63,10 @@ Ext.define( 'Deft.overrides.data.proxy.Ajax',
 				method        : @getMethod(request)
 				disableCaching: false
 
+				callback      : @createRequestCallback(request, operation, callback, scope)
 				# Override callback and inject promise reference
 				#
+				###
 				callback      : Ext.Function.createSequence(
 					# Required to internally call {@link #processResponse}
 					@createRequestCallback(request, operation ),
@@ -72,6 +74,7 @@ Ext.define( 'Deft.overrides.data.proxy.Ajax',
 					Deft.ajax.createCallback( operation, dfd, callback, scope ),
 					@
 				)
+				###
 				promise       : -> dfd.promise
 			)
 		)

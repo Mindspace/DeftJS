@@ -37,17 +37,27 @@ Ext.define( 'Deft.utils.DeferredUtils',
 			@return {Deft.promise.Promise} Promise, read-only instance
 		###
 		wait : ( valueOrCallback, delay, rest... ) ->
-			dfd = @defer()
+			dfd 	= @defer()
 			Ext.defer( ->
+
 				val = valueOrCallback
 				try
-					val = val.apply(null,rest || [ ]) if Ext.isFunction( val )
-					dfd.resolve( val )
+					if Ext.isFunction( val )
+						val = val.apply(null,rest || [ ])
+
+					if val instanceof Ext.ClassManager.get( 'Deft.promise.Promise' )
+						val.then(
+							(result) -> dfd.resolve( result )
+							(error)  -> dfd.reject( error )
+						)
+					else
+						dfd.resolve( val )
+
 				catch error
 					dfd.reject ( error )
-
 				return
 			,delay)
+
 			return dfd.promise
 
 

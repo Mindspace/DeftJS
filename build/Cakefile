@@ -3,7 +3,7 @@
 
 DEFT_BUILD    = "."
 DEFT_SRC      = "../src/coffee/Deft"
-DEFT_JS       = "#{DEFT_BUILD}/js/Deft"
+DEFT_JS       = "../src/js/Deft"
 DEFT_JOIN     = "#{DEFT_BUILD}/js/Deft/deft-all.js"
 DEFT_LIB      = "#{DEFT_BUILD}/deft-all.js"
 

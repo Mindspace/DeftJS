@@ -53,19 +53,20 @@
     		Note that here we expose the promise instance as a flyweight accessor for 1x reference.
     */
     constructor: function(config) {
-      var me;
+      var me,
+        _this = this;
       Deft.defer(function(dfd) {
-        config.callback = Deft.fxCallback(dfd, config.callback, config.scope);
-        return this.promise = function() {
+        config.callback = Deft.ajax.fxCallback(dfd, config.callback, config.scope);
+        return _this.promise = function() {
           var token;
-          token = dfd.promise();
-          delete this.promise;
+          token = dfd.promise;
+          delete _this.promise;
           return token;
         };
       });
-      me = this.callOverridden([config]);
-      if (me) me.promise = this.promise;
-      return me || this;
+      me = this.callOverridden([config]) || this;
+      me.promise = this.promise;
+      return me;
     }
   });
 

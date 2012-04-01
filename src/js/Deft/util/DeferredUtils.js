@@ -47,7 +47,15 @@
           val = valueOrCallback;
           try {
             if (Ext.isFunction(val)) val = val.apply(null, rest || []);
-            dfd.resolve(val);
+            if (val instanceof Ext.ClassManager.get('Deft.promise.Promise')) {
+              val.then(function(result) {
+                return dfd.resolve(result);
+              }, function(error) {
+                return dfd.reject(error);
+              });
+            } else {
+              dfd.resolve(val);
+            }
           } catch (error) {
             dfd.reject(error);
           }

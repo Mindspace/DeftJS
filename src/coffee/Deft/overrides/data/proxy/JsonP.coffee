@@ -53,7 +53,7 @@ Ext.define( 'Deft.overrides.data.proxy.JsonP',
 		params  = request.params
 		request = @getWriter()?.write( request ) if operation.allowWrite()
 
-		Deft.defer( (dfd) ->
+		Deft.defer( (dfd) =>
 
 			Ext.apply( request,
 				callbackKey   : @callbackKey,

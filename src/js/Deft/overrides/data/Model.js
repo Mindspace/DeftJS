@@ -13,7 +13,8 @@
     		@return {Ext.data.Model} The Model instance
     */
     load: function(id, config) {
-      var callback, operation, request, scope;
+      var callback, operation, request, scope,
+        _this = this;
       config = Ext.apply({}, config);
       Ext.applyIf(config, {
         action: 'read',
@@ -35,7 +36,7 @@
       this.promise = function() {
         var token;
         token = request.promise();
-        delete this.promise;
+        delete _this.promise;
         return token;
       };
       return this;
@@ -78,7 +79,7 @@
       this.promise = function() {
         var token;
         token = request.promise();
-        delete this.promise;
+        delete _this.promise;
         return token;
       };
       return this;

@@ -51,22 +51,23 @@ Ext.define( 'Deft.overrides.fx.Anim',
 		Note that here we expose the promise instance as a flyweight accessor for 1x reference.
 	###
 	constructor : (config) ->
-		Deft.defer( (dfd) ->
+		Deft.defer( (dfd) =>
 			# Intercept callback with Promise triggers
-			config.callback = Deft.fxCallback( dfd, config.callback, config.scope )
+			config.callback = Deft.ajax.fxCallback( dfd, config.callback, config.scope )
 
 			# Cache a flyweight/temporary accessor to the promise
-			@promise = ->
-				token = dfd.promise()
+			@promise = =>
+				token = dfd.promise
 				delete @promise
 				return token
 		)
 
-		me = @callOverridden( [config] )
-		me.promise = @promise if me
-
 		# required since an Ext.fx.Animator could possible be constructed instead
-		return me || @
+		# super weird... but that is Ext.fx.Anim for you!
+		me = @callOverridden( [config] ) || @
+		me.promise = @promise
+
+		return me
 
 )
 

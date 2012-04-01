@@ -843,7 +843,15 @@ Used by {@link Deft.ioc.Injector}.
           val = valueOrCallback;
           try {
             if (Ext.isFunction(val)) val = val.apply(null, rest || []);
-            dfd.resolve(val);
+            if (val instanceof Ext.ClassManager.get('Deft.promise.Promise')) {
+              val.then(function(result) {
+                return dfd.resolve(result);
+              }, function(error) {
+                return dfd.reject(error);
+              });
+            } else {
+              dfd.resolve(val);
+            }
           } catch (error) {
             dfd.reject(error);
           }
@@ -1071,7 +1079,8 @@ Used by {@link Deft.ioc.Injector}.
     		@return {Ext.data.Model} The Model instance
     */
     load: function(id, config) {
-      var callback, operation, request, scope;
+      var callback, operation, request, scope,
+        _this = this;
       config = Ext.apply({}, config);
       Ext.applyIf(config, {
         action: 'read',
@@ -1093,7 +1102,7 @@ Used by {@link Deft.ioc.Injector}.
       this.promise = function() {
         var token;
         token = request.promise();
-        delete this.promise;
+        delete _this.promise;
         return token;
       };
       return this;
@@ -1136,7 +1145,7 @@ Used by {@link Deft.ioc.Injector}.
       this.promise = function() {
         var token;
         token = request.promise();
-        delete this.promise;
+        delete _this.promise;
         return token;
       };
       return this;
@@ -1193,7 +1202,8 @@ Used by {@link Deft.ioc.Injector}.
     		If the callback argument is defined, then that callback is also fired when the promise is resolved/rejected.
     */
     doRequest: function(operation, callback, scope) {
-      var request, _ref;
+      var request, _ref,
+        _this = this;
       callback || (callback = function() {});
       request = this.buildRequest(operation);
       if (operation.allowWrite()) {
@@ -1201,12 +1211,21 @@ Used by {@link Deft.ioc.Injector}.
       }
       Deft.defer(function(dfd) {
         return Ext.apply(request, {
-          headers: this.headers,
-          timeout: this.timeout,
-          scope: this,
-          method: this.getMethod(request),
+          headers: _this.headers,
+          timeout: _this.timeout,
+          scope: _this,
+          method: _this.getMethod(request),
           disableCaching: false,
-          callback: Ext.Function.createSequence(this.createRequestCallback(request, operation), Deft.ajax.createCallback(operation, dfd, callback, scope), this),
+          callback: _this.createRequestCallback(request, operation, callback, scope),
+          /*
+          				callback      : Ext.Function.createSequence(
+          					# Required to internally call {@link #processResponse}
+          					@createRequestCallback(request, operation ),
+          					# Now, redirect notifications to Deferred resolve/reject
+          					Deft.ajax.createCallback( operation, dfd, callback, scope ),
+          					@
+          				)
+          */
           promise: function() {
             return dfd.promise;
           }
@@ -1250,7 +1269,8 @@ Used by {@link Deft.ioc.Injector}.
     		If the callback argument is defined, then that callback is also fired when the promise is resolved/rejected.
     */
     doRequest: function(operation, callback, scope) {
-      var args, fn, method, params, request, _ref;
+      var args, fn, method, params, request, _ref,
+        _this = this;
       callback || (callback = function() {});
       request = this.buildRequest(operation);
       params = request.params;
@@ -1265,7 +1285,7 @@ Used by {@link Deft.ioc.Injector}.
         args = method.getArgs(params, this.paramOrder, this.paramsAsHash);
       }
       Deft.defer(function(dfd) {
-        callback = Ext.Function.createSequence(this.createRequestCallback(request, operation), Deft.ajax.createCallback(operation, dfd, callback, scope), this);
+        callback = Ext.Function.createSequence(_this.createRequestCallback(request, operation), Deft.ajax.createCallback(operation, dfd, callback, scope), _this);
         return Ext.apply(request, {
           args: args,
           directFn: fn,
@@ -1328,7 +1348,8 @@ Used by {@link Deft.ioc.Injector}.
     		If the callback argument is defined, then that callback is also fired when the promise is resolved/rejected.
     */
     doRequest: function(operation, callback, scope) {
-      var params, request, _ref;
+      var params, request, _ref,
+        _this = this;
       callback || (callback = function() {});
       request = this.buildRequest(operation);
       params = request.params;
@@ -1337,11 +1358,11 @@ Used by {@link Deft.ioc.Injector}.
       }
       Deft.defer(function(dfd) {
         return Ext.apply(request, {
-          callbackKey: this.callbackKey,
-          timeout: this.timeout,
-          scope: this,
+          callbackKey: _this.callbackKey,
+          timeout: _this.timeout,
+          scope: _this,
           disableCaching: false,
-          callback: Ext.Function.createSequence(this.createRequestCallback(request, operation), Deft.ajax.createCallback(operation, dfd, callback, scope), this),
+          callback: Ext.Function.createSequence(_this.createRequestCallback(request, operation), Deft.ajax.createCallback(operation, dfd, callback, scope), _this),
           promise: function() {
             return dfd.promise;
           }
@@ -1411,19 +1432,20 @@ Used by {@link Deft.ioc.Injector}.
     		Note that here we expose the promise instance as a flyweight accessor for 1x reference.
     */
     constructor: function(config) {
-      var me;
+      var me,
+        _this = this;
       Deft.defer(function(dfd) {
-        config.callback = Deft.fxCallback(dfd, config.callback, config.scope);
-        return this.promise = function() {
+        config.callback = Deft.ajax.fxCallback(dfd, config.callback, config.scope);
+        return _this.promise = function() {
           var token;
-          token = dfd.promise();
-          delete this.promise;
+          token = dfd.promise;
+          delete _this.promise;
           return token;
         };
       });
-      me = this.callOverridden([config]);
-      if (me) me.promise = this.promise;
-      return me || this;
+      me = this.callOverridden([config]) || this;
+      me.promise = this.promise;
+      return me;
     }
   });
 

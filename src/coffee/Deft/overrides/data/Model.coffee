@@ -33,7 +33,7 @@ Ext.define( 'Deft.overrides.data.Model',
 
 		# Cache a flyweight/temporary accessor to the promise
 		request = @getProxy().read(operation, callback, @)
-		@promise = ->
+		@promise = =>
 			token = request.promise()
 			delete @promise
 			return token
@@ -74,7 +74,7 @@ Ext.define( 'Deft.overrides.data.Model',
 
 		# Cache a flyweight/temporary accessor to the promise
 		request = @getProxy()[action](operation, callback, @)
-		@promise = ->
+		@promise = =>
 			token = request.promise()
 			delete @promise
 			return token

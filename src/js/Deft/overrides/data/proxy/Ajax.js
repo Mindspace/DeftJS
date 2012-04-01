@@ -51,7 +51,8 @@
     		If the callback argument is defined, then that callback is also fired when the promise is resolved/rejected.
     */
     doRequest: function(operation, callback, scope) {
-      var request, _ref;
+      var request, _ref,
+        _this = this;
       callback || (callback = function() {});
       request = this.buildRequest(operation);
       if (operation.allowWrite()) {
@@ -59,12 +60,21 @@
       }
       Deft.defer(function(dfd) {
         return Ext.apply(request, {
-          headers: this.headers,
-          timeout: this.timeout,
-          scope: this,
-          method: this.getMethod(request),
+          headers: _this.headers,
+          timeout: _this.timeout,
+          scope: _this,
+          method: _this.getMethod(request),
           disableCaching: false,
-          callback: Ext.Function.createSequence(this.createRequestCallback(request, operation), Deft.ajax.createCallback(operation, dfd, callback, scope), this),
+          callback: _this.createRequestCallback(request, operation, callback, scope),
+          /*
+          				callback      : Ext.Function.createSequence(
+          					# Required to internally call {@link #processResponse}
+          					@createRequestCallback(request, operation ),
+          					# Now, redirect notifications to Deferred resolve/reject
+          					Deft.ajax.createCallback( operation, dfd, callback, scope ),
+          					@
+          				)
+          */
           promise: function() {
             return dfd.promise;
           }

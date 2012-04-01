@@ -49,7 +49,8 @@
     		If the callback argument is defined, then that callback is also fired when the promise is resolved/rejected.
     */
     doRequest: function(operation, callback, scope) {
-      var params, request, _ref;
+      var params, request, _ref,
+        _this = this;
       callback || (callback = function() {});
       request = this.buildRequest(operation);
       params = request.params;
@@ -58,11 +59,11 @@
       }
       Deft.defer(function(dfd) {
         return Ext.apply(request, {
-          callbackKey: this.callbackKey,
-          timeout: this.timeout,
-          scope: this,
+          callbackKey: _this.callbackKey,
+          timeout: _this.timeout,
+          scope: _this,
           disableCaching: false,
-          callback: Ext.Function.createSequence(this.createRequestCallback(request, operation), Deft.ajax.createCallback(operation, dfd, callback, scope), this),
+          callback: Ext.Function.createSequence(_this.createRequestCallback(request, operation), Deft.ajax.createCallback(operation, dfd, callback, scope), _this),
           promise: function() {
             return dfd.promise;
           }

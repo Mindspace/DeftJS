@@ -47,7 +47,7 @@ Ext.define( 'Deft.overrides.data.proxy.Direct',
 			args   = method.getArgs( params, @paramOrder, @paramsAsHash )
 
 
-		Deft.defer( (dfd) ->
+		Deft.defer( (dfd) =>
 
 			# Override callback with sequence
 			callback = Ext.Function.createSequence(
