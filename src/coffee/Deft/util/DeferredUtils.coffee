@@ -108,7 +108,7 @@ Ext.define( 'Deft.utils.DeferredUtils',
 			@return {Function} Callback function with the required signature for Ajax notifications
 		###
 		createOperationCallback : ( operation, dfd, callback, scope=null ) ->
-			return (operation ) ->
+			return (options, success, response) ->
 				# 1st trigger optional callback
 				callback.call(scope, operation)    if  Ext.isFunction( callback )
 
@@ -117,7 +117,8 @@ Ext.define( 'Deft.utils.DeferredUtils',
 
 
 		###
-			Intercept the callback method provided in the {@link Ext.fx.Anim} {Object} configuration to build a wrapper callback that also resolves the specified Deferred instance
+			Intercept the callback method provided in the {@link Ext.fx.Anim} {Object} configuration to build a wrapper callback that also resolves the specified Deferred instance. The deferred will be resolved
+			with either the callback response or the animation instance.
 
 			@param {Deft.promise.Deferred} dfd Deferred instance
 			@param {Function} callback The callback function specified in {@link Ext.fx.Anim} {Object} configuration
@@ -129,9 +130,9 @@ Ext.define( 'Deft.utils.DeferredUtils',
 			return ( anim, startTime ) ->
 				if Ext.isFunction( callback )
 					# 1st trigger optional callback
-					callback.call( scope, anim, startTime)
+					val = callback.call( scope, anim, startTime)
 
-				dfd.resolve( anim )
+				dfd.resolve( val or anim )
 				# Animations do not appear to support abort/stop
 				# dfd.reject( operation.error )
 				return

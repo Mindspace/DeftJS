@@ -31,6 +31,8 @@ Ext.define( 'Deft.overrides.data.Model',
 			Ext.callback( config.callback, scope, [record, operation] )
 			return
 
+		# Monkey-patch here >>
+
 		# Cache a flyweight/temporary accessor to the promise
 		request = @getProxy().read(operation, callback, @)
 		@promise = =>
@@ -71,6 +73,8 @@ Ext.define( 'Deft.overrides.data.Model',
 				Ext.callback(options.failure, scope, args)
 
 			Ext.callback(options.callback, scope, args)
+
+		# Monkey-patch here >>
 
 		# Cache a flyweight/temporary accessor to the promise
 		request = @getProxy()[action](operation, callback, @)

@@ -104,14 +104,15 @@
       */
       createOperationCallback: function(operation, dfd, callback, scope) {
         if (scope == null) scope = null;
-        return function(operation) {
+        return function(options, success, response) {
           if (Ext.isFunction(callback)) callback.call(scope, operation);
           if (operation.wasSuccessful()) dfd.resolve(operation.resultSet);
           if (!operation.wasSuccessful()) return dfd.reject(operation.error);
         };
       },
       /*
-      			Intercept the callback method provided in the {@link Ext.fx.Anim} {Object} configuration to build a wrapper callback that also resolves the specified Deferred instance
+      			Intercept the callback method provided in the {@link Ext.fx.Anim} {Object} configuration to build a wrapper callback that also resolves the specified Deferred instance. The deferred will be resolved
+      			with either the callback response or the animation instance.
       
       			@param {Deft.promise.Deferred} dfd Deferred instance
       			@param {Function} callback The callback function specified in {@link Ext.fx.Anim} {Object} configuration
@@ -120,8 +121,11 @@
       createFxCallback: function(dfd, callback, scope) {
         if (scope == null) scope = null;
         return function(anim, startTime) {
-          if (Ext.isFunction(callback)) callback.call(scope, anim, startTime);
-          dfd.resolve(anim);
+          var val;
+          if (Ext.isFunction(callback)) {
+            val = callback.call(scope, anim, startTime);
+          }
+          dfd.resolve(val || anim);
         };
       }
     }

@@ -22,7 +22,8 @@
 			// Issue the Ajax/XHR request, then return
 			// a promise to allow extra response notifications
 
-			return proxy.doRequest( operation )
+			return proxy
+				 .doRequest( operation )
 				 .promise()
 				 .then (
 					// intercept response and extract data
@@ -63,10 +64,8 @@ Ext.define( 'Deft.overrides.data.proxy.Ajax',
 				method        : @getMethod(request)
 				disableCaching: false
 
-				callback      : @createRequestCallback(request, operation, callback, scope)
 				# Override callback and inject promise reference
 				#
-				###
 				callback      : Ext.Function.createSequence(
 					# Required to internally call {@link #processResponse}
 					@createRequestCallback(request, operation ),
@@ -74,7 +73,6 @@ Ext.define( 'Deft.overrides.data.proxy.Ajax',
 					Deft.ajax.createCallback( operation, dfd, callback, scope ),
 					@
 				)
-				###
 				promise       : -> dfd.promise
 			)
 		)

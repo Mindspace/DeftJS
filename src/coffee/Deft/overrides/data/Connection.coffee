@@ -44,11 +44,13 @@ Ext.define( 'Deft.overrides.data.Connection',
 		The request object also contains an instance of the {@link Deft.Promise}
 	###
 	request : (options) ->
+		# call super::request()
 		token = @callOverridden( [options] )
 
 		Ext.applyIf( token,
 			me      : @,
 			promise : ->
+
 				me      = token.me
 				options = token.options
 
@@ -86,6 +88,7 @@ Ext.define( 'Deft.overrides.data.Connection',
 		for the overriden {@link Ext.Ajax#request} call
 	###
 	onComplete : (request) ->
+		# call super::onComplete()
 		response = @callOverridden( [request] )
 
 		Ext.apply( request,

@@ -23,7 +23,8 @@
 			// Issue the Ajax/XHR request, then return
 			// a promise to allow extra response notifications
 
-			return proxy.doRequest( operation )
+			return proxy
+				 .doRequest( operation )
 				 .promise()
 				 .then (
 					// intercept response and extract data
@@ -65,16 +66,7 @@
           scope: _this,
           method: _this.getMethod(request),
           disableCaching: false,
-          callback: _this.createRequestCallback(request, operation, callback, scope),
-          /*
-          				callback      : Ext.Function.createSequence(
-          					# Required to internally call {@link #processResponse}
-          					@createRequestCallback(request, operation ),
-          					# Now, redirect notifications to Deferred resolve/reject
-          					Deft.ajax.createCallback( operation, dfd, callback, scope ),
-          					@
-          				)
-          */
+          callback: Ext.Function.createSequence(_this.createRequestCallback(request, operation), Deft.ajax.createCallback(operation, dfd, callback, scope), _this),
           promise: function() {
             return dfd.promise;
           }

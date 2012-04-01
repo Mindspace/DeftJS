@@ -900,14 +900,15 @@ Used by {@link Deft.ioc.Injector}.
       */
       createOperationCallback: function(operation, dfd, callback, scope) {
         if (scope == null) scope = null;
-        return function(operation) {
+        return function(options, success, response) {
           if (Ext.isFunction(callback)) callback.call(scope, operation);
           if (operation.wasSuccessful()) dfd.resolve(operation.resultSet);
           if (!operation.wasSuccessful()) return dfd.reject(operation.error);
         };
       },
       /*
-      			Intercept the callback method provided in the {@link Ext.fx.Anim} {Object} configuration to build a wrapper callback that also resolves the specified Deferred instance
+      			Intercept the callback method provided in the {@link Ext.fx.Anim} {Object} configuration to build a wrapper callback that also resolves the specified Deferred instance. The deferred will be resolved
+      			with either the callback response or the animation instance.
       
       			@param {Deft.promise.Deferred} dfd Deferred instance
       			@param {Function} callback The callback function specified in {@link Ext.fx.Anim} {Object} configuration
@@ -916,8 +917,11 @@ Used by {@link Deft.ioc.Injector}.
       createFxCallback: function(dfd, callback, scope) {
         if (scope == null) scope = null;
         return function(anim, startTime) {
-          if (Ext.isFunction(callback)) callback.call(scope, anim, startTime);
-          dfd.resolve(anim);
+          var val;
+          if (Ext.isFunction(callback)) {
+            val = callback.call(scope, anim, startTime);
+          }
+          dfd.resolve(val || anim);
         };
       }
     }
@@ -1176,7 +1180,8 @@ Used by {@link Deft.ioc.Injector}.
   			// Issue the Ajax/XHR request, then return
   			// a promise to allow extra response notifications
   
-  			return proxy.doRequest( operation )
+  			return proxy
+  				 .doRequest( operation )
   				 .promise()
   				 .then (
   					// intercept response and extract data
@@ -1216,16 +1221,7 @@ Used by {@link Deft.ioc.Injector}.
           scope: _this,
           method: _this.getMethod(request),
           disableCaching: false,
-          callback: _this.createRequestCallback(request, operation, callback, scope),
-          /*
-          				callback      : Ext.Function.createSequence(
-          					# Required to internally call {@link #processResponse}
-          					@createRequestCallback(request, operation ),
-          					# Now, redirect notifications to Deferred resolve/reject
-          					Deft.ajax.createCallback( operation, dfd, callback, scope ),
-          					@
-          				)
-          */
+          callback: Ext.Function.createSequence(_this.createRequestCallback(request, operation), Deft.ajax.createCallback(operation, dfd, callback, scope), _this),
           promise: function() {
             return dfd.promise;
           }
