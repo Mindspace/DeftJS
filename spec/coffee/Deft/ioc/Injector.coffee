@@ -31,7 +31,7 @@ describe( 'Deft.ioc.Injector', ->
 		describe( 'Configuration with a class name as a String', ->
 			
 			it( 'should be configurable with a class name as a String', ->
-				spy = spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
+				spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
 				
 				Deft.Injector.configure(
 					classNameAsString: 'ExampleClass'
@@ -41,7 +41,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameAsString' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -72,7 +72,7 @@ describe( 'Deft.ioc.Injector', ->
 			expectedClassNameAsSingletonEagerlyInstance = null
 			
 			it( 'should be configurable with a class name', ->
-				spy = spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
+				spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
 				
 				Deft.Injector.configure(
 					className:
@@ -83,7 +83,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'className' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -108,13 +108,13 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameEagerly' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
 			
 			it( 'should be configurable with a class name, (explicity) lazily', ->
-				spy = spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
+				spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
 				
 				Deft.Injector.configure(
 					classNameLazily:
@@ -126,13 +126,13 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameLazily' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
 			
 			it( 'should be configurable with a class name, (explicitly) as a singleton', ->
-				spy = spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
+				spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
 				
 				Deft.Injector.configure(
 					classNameAsSingleton:
@@ -144,7 +144,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameAsSingleton' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -170,13 +170,13 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameAsSingletonEagerly' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
 			
 			it( 'should be configurable with a class name, (explicitly) as a singleton, (explicitly) lazily', ->
-				spy = spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
+				spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
 				
 				Deft.Injector.configure(
 					classNameAsSingletonLazily:
@@ -189,13 +189,13 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameAsSingletonLazily' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
 			
 			it( 'should be configurable with a class name, as a prototype', ->
-				spy = spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
+				spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
 				
 				Deft.Injector.configure(
 					classNameAsPrototype:
@@ -207,7 +207,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameAsPrototype' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -227,7 +227,7 @@ describe( 'Deft.ioc.Injector', ->
 			)
 			
 			it( 'should be configurable with a class name, as a prototype, (explicitly) lazily', ->
-				spy = spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
+				spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
 				
 				Deft.Injector.configure(
 					classNameAsPrototypeLazily:
@@ -240,7 +240,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameAsPrototypeLazily' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -369,7 +369,7 @@ describe( 'Deft.ioc.Injector', ->
 			expectedClassNameWithParametersAsSingletonEagerlyInstance = null
 			
 			it( 'should be configurable with a class name and constructor parameters', ->
-				spy = spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
+				spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
 				
 				Deft.Injector.configure(
 					classNameWithParameters:
@@ -381,7 +381,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameWithParameters' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -410,13 +410,13 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameWithParametersEagerly' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
 			
 			it( 'should be configurable with a class name and constructor parameters, (explicitly) lazily', ->
-				spy = spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
+				spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
 				
 				Deft.Injector.configure(
 					classNameWithParametersLazily:
@@ -429,13 +429,13 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameWithParametersLazily' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
 			
 			it( 'should be configurable with a class name and constructor parameters, (explicitly) as a singleton', ->
-				spy = spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
+				spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
 				
 				Deft.Injector.configure(
 					classNameWithParametersAsSingleton:
@@ -448,7 +448,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameWithParametersAsSingleton' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -478,13 +478,13 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameWithParametersAsSingletonEagerly' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
 			
 			it( 'should be configurable with a class name and constructor parameters, (explicitly) as a singleton, (explicitly) lazily', ->
-				spy = spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
+				spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
 				
 				Deft.Injector.configure(
 					classNameWithParametersAsSingletonLazily:
@@ -498,13 +498,13 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameWithParametersAsSingletonLazily' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
 			
 			it( 'should be configurable with a class name and constructor parameters, as a prototype', ->
-				spy = spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
+				spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
 				
 				Deft.Injector.configure(
 					classNameWithParametersAsPrototype:
@@ -517,7 +517,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameWithParametersAsPrototype' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -538,7 +538,7 @@ describe( 'Deft.ioc.Injector', ->
 			)
 			
 			it( 'should be configurable with a class name and constructor parameters, as a prototype, (explicitly) lazily', ->
-				spy = spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
+				spyOn( ExampleClass.prototype, 'constructor' ).andCallThrough()
 				
 				Deft.Injector.configure(
 					classNameWithParametersAsPrototypeLazily:
@@ -551,7 +551,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'classNameWithParametersAsPrototypeLazily' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -721,7 +721,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'fn' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -745,7 +745,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'fnEagerly' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -763,7 +763,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'fnLazily' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -781,7 +781,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'fnAsSingleton' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -806,7 +806,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'fnAsSingletonEagerly' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -825,7 +825,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'fnAsSingletonLazily' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -843,7 +843,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'fnAsPrototype' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -876,7 +876,7 @@ describe( 'Deft.ioc.Injector', ->
 				
 				expect(
 					Deft.Injector.canResolve( 'fnAsPrototypeLazily' )
-				).toBeTruthy()
+				).toBe( true )
 				
 				return
 			)
@@ -1022,7 +1022,7 @@ describe( 'Deft.ioc.Injector', ->
 					
 					expect(
 						Deft.Injector.canResolve( identifier )
-					).toBeTruthy()
+					).toBe( true )
 					
 					return
 				)
@@ -1055,7 +1055,7 @@ describe( 'Deft.ioc.Injector', ->
 					
 					expect(
 						Deft.Injector.canResolve( identifier )
-					).toBeTruthy()
+					).toBe( true )
 					
 					return
 				)
@@ -1072,7 +1072,7 @@ describe( 'Deft.ioc.Injector', ->
 					
 					expect(
 						Deft.Injector.canResolve( identifier )
-					).toBeTruthy()
+					).toBe( true )
 					
 					return
 				)
@@ -1107,7 +1107,7 @@ describe( 'Deft.ioc.Injector', ->
 					
 					expect(
 						Deft.Injector.canResolve( identifier )
-					).toBeTruthy()
+					).toBe( true )
 					
 					return
 				)

@@ -26,13 +26,12 @@ describe('Deft.ioc.Injector', function() {
     var configuredIdentifiers, describeConfigurationByValueOfType, typeDescriptor, typeDescriptors, _i, _len;
     describe('Configuration with a class name as a String', function() {
       it('should be configurable with a class name as a String', function() {
-        var spy;
-        spy = spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
+        spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
         Deft.Injector.configure({
           classNameAsString: 'ExampleClass'
         });
         expect(ExampleClass.prototype.constructor).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('classNameAsString')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameAsString')).toBe(true);
       });
       describe('Resolution of a dependency configured with a class name as a String', function() {
         it("should resolve a dependency configured with a class name as a String with the corresponding singleton class instance", function() {
@@ -47,15 +46,14 @@ describe('Deft.ioc.Injector', function() {
       expectedClassNameEagerlyInstance = null;
       expectedClassNameAsSingletonEagerlyInstance = null;
       it('should be configurable with a class name', function() {
-        var spy;
-        spy = spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
+        spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
         Deft.Injector.configure({
           className: {
             className: 'ExampleClass'
           }
         });
         expect(ExampleClass.prototype.constructor).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('className')).toBeTruthy();
+        expect(Deft.Injector.canResolve('className')).toBe(true);
       });
       it('should be configurable with a class name, eagerly', function() {
         var constructorSpy;
@@ -71,11 +69,10 @@ describe('Deft.ioc.Injector', function() {
         });
         expect(ExampleClass.prototype.constructor).toHaveBeenCalled();
         expect(expectedClassNameEagerlyInstance).toBeInstanceOf('ExampleClass');
-        expect(Deft.Injector.canResolve('classNameEagerly')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameEagerly')).toBe(true);
       });
       it('should be configurable with a class name, (explicity) lazily', function() {
-        var spy;
-        spy = spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
+        spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
         Deft.Injector.configure({
           classNameLazily: {
             className: 'ExampleClass',
@@ -83,11 +80,10 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(ExampleClass.prototype.constructor).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('classNameLazily')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameLazily')).toBe(true);
       });
       it('should be configurable with a class name, (explicitly) as a singleton', function() {
-        var spy;
-        spy = spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
+        spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
         Deft.Injector.configure({
           classNameAsSingleton: {
             className: 'ExampleClass',
@@ -95,7 +91,7 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(ExampleClass.prototype.constructor).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('classNameAsSingleton')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameAsSingleton')).toBe(true);
       });
       it('should be configurable with a class name, (explicitly) as a singleton, eagerly', function() {
         var constructorSpy;
@@ -112,11 +108,10 @@ describe('Deft.ioc.Injector', function() {
         });
         expect(ExampleClass.prototype.constructor).toHaveBeenCalled();
         expect(expectedClassNameAsSingletonEagerlyInstance).toBeInstanceOf('ExampleClass');
-        expect(Deft.Injector.canResolve('classNameAsSingletonEagerly')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameAsSingletonEagerly')).toBe(true);
       });
       it('should be configurable with a class name, (explicitly) as a singleton, (explicitly) lazily', function() {
-        var spy;
-        spy = spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
+        spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
         Deft.Injector.configure({
           classNameAsSingletonLazily: {
             className: 'ExampleClass',
@@ -125,11 +120,10 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(ExampleClass.prototype.constructor).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('classNameAsSingletonLazily')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameAsSingletonLazily')).toBe(true);
       });
       it('should be configurable with a class name, as a prototype', function() {
-        var spy;
-        spy = spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
+        spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
         Deft.Injector.configure({
           classNameAsPrototype: {
             className: 'ExampleClass',
@@ -137,7 +131,7 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(ExampleClass.prototype.constructor).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('classNameAsPrototype')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameAsPrototype')).toBe(true);
       });
       it('should not be configurable with a class name, as a prototype, eagerly', function() {
         expect(function() {
@@ -151,8 +145,7 @@ describe('Deft.ioc.Injector', function() {
         }).toThrow(new Error("Error while configuring 'classNameAsPrototypeEagerly': only singletons can be created eagerly."));
       });
       it('should be configurable with a class name, as a prototype, (explicitly) lazily', function() {
-        var spy;
-        spy = spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
+        spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
         Deft.Injector.configure({
           classNameAsPrototypeLazily: {
             className: 'ExampleClass',
@@ -161,7 +154,7 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(ExampleClass.prototype.constructor).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('classNameAsPrototypeLazily')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameAsPrototypeLazily')).toBe(true);
       });
       describe('Resolution of a dependency configured with a class name', function() {
         it('should resolve a dependency configured with a class name with the corresponding singleton class instance', function() {
@@ -215,8 +208,7 @@ describe('Deft.ioc.Injector', function() {
       expectedClassNameWithParametersEagerlyInstance = null;
       expectedClassNameWithParametersAsSingletonEagerlyInstance = null;
       it('should be configurable with a class name and constructor parameters', function() {
-        var spy;
-        spy = spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
+        spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
         Deft.Injector.configure({
           classNameWithParameters: {
             className: 'ExampleClass',
@@ -228,7 +220,7 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(ExampleClass.prototype.constructor).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('classNameWithParameters')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameWithParameters')).toBe(true);
       });
       it('should be configurable with a class name and constructor parameters, eagerly', function() {
         var constructorSpy;
@@ -250,11 +242,10 @@ describe('Deft.ioc.Injector', function() {
         expect(ExampleClass.prototype.constructor).toHaveBeenCalled();
         expect(expectedClassNameWithParametersEagerlyInstance).toBeInstanceOf('ExampleClass');
         expect(expectedClassNameWithParametersEagerlyInstance.getParameter()).toEqual('expected value');
-        expect(Deft.Injector.canResolve('classNameWithParametersEagerly')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameWithParametersEagerly')).toBe(true);
       });
       it('should be configurable with a class name and constructor parameters, (explicitly) lazily', function() {
-        var spy;
-        spy = spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
+        spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
         Deft.Injector.configure({
           classNameWithParametersLazily: {
             className: 'ExampleClass',
@@ -267,11 +258,10 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(ExampleClass.prototype.constructor).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('classNameWithParametersLazily')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameWithParametersLazily')).toBe(true);
       });
       it('should be configurable with a class name and constructor parameters, (explicitly) as a singleton', function() {
-        var spy;
-        spy = spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
+        spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
         Deft.Injector.configure({
           classNameWithParametersAsSingleton: {
             className: 'ExampleClass',
@@ -284,7 +274,7 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(ExampleClass.prototype.constructor).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('classNameWithParametersAsSingleton')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameWithParametersAsSingleton')).toBe(true);
       });
       it('should be configurable with a class name and constructor parameters, as a singleton, eagerly', function() {
         var constructorSpy;
@@ -307,11 +297,10 @@ describe('Deft.ioc.Injector', function() {
         expect(ExampleClass.prototype.constructor).toHaveBeenCalled();
         expect(expectedClassNameWithParametersAsSingletonEagerlyInstance).toBeInstanceOf('ExampleClass');
         expect(expectedClassNameWithParametersAsSingletonEagerlyInstance.getParameter()).toEqual('expected value');
-        expect(Deft.Injector.canResolve('classNameWithParametersAsSingletonEagerly')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameWithParametersAsSingletonEagerly')).toBe(true);
       });
       it('should be configurable with a class name and constructor parameters, (explicitly) as a singleton, (explicitly) lazily', function() {
-        var spy;
-        spy = spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
+        spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
         Deft.Injector.configure({
           classNameWithParametersAsSingletonLazily: {
             className: 'ExampleClass',
@@ -325,11 +314,10 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(ExampleClass.prototype.constructor).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('classNameWithParametersAsSingletonLazily')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameWithParametersAsSingletonLazily')).toBe(true);
       });
       it('should be configurable with a class name and constructor parameters, as a prototype', function() {
-        var spy;
-        spy = spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
+        spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
         Deft.Injector.configure({
           classNameWithParametersAsPrototype: {
             className: 'ExampleClass',
@@ -342,7 +330,7 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(ExampleClass.prototype.constructor).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('classNameWithParametersAsPrototype')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameWithParametersAsPrototype')).toBe(true);
       });
       it('should not be configurable with a class name and constructor parameters, as a prototype, eagerly', function() {
         expect(function() {
@@ -361,8 +349,7 @@ describe('Deft.ioc.Injector', function() {
         }).toThrow(new Error("Error while configuring 'classNameWithParametersAsPrototypeEagerly': only singletons can be created eagerly."));
       });
       it('should be configurable with a class name and constructor parameters, as a prototype, (explicitly) lazily', function() {
-        var spy;
-        spy = spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
+        spyOn(ExampleClass.prototype, 'constructor').andCallThrough();
         Deft.Injector.configure({
           classNameWithParametersAsPrototypeLazily: {
             className: 'ExampleClass',
@@ -375,7 +362,7 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(ExampleClass.prototype.constructor).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('classNameWithParametersAsPrototypeLazily')).toBeTruthy();
+        expect(Deft.Injector.canResolve('classNameWithParametersAsPrototypeLazily')).toBe(true);
       });
       describe('Resolution of a dependency configured with a class name and constructor parameters', function() {
         it('should resolve a dependency configured with a class name and constructor parameters with the corresponding singleton class instance', function() {
@@ -448,7 +435,7 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(factoryFunctionSpy).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('fn')).toBeTruthy();
+        expect(Deft.Injector.canResolve('fn')).toBe(true);
       });
       it('should be configurable with a factory function, eagerly', function() {
         var factoryFunctionSpy;
@@ -463,7 +450,7 @@ describe('Deft.ioc.Injector', function() {
         });
         expect(factoryFunctionSpy).toHaveBeenCalled();
         expect(expectedFnEagerlyInstance).toBeInstanceOf('ExampleClass');
-        expect(Deft.Injector.canResolve('fnEagerly')).toBeTruthy();
+        expect(Deft.Injector.canResolve('fnEagerly')).toBe(true);
       });
       it('should be configurable with a factory function, (explicitly) lazily', function() {
         var factoryFunctionSpy;
@@ -475,7 +462,7 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(factoryFunctionSpy).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('fnLazily')).toBeTruthy();
+        expect(Deft.Injector.canResolve('fnLazily')).toBe(true);
       });
       it('should be configurable with a factory function, (explicitly) as a singleton', function() {
         var factoryFunctionSpy;
@@ -487,7 +474,7 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(factoryFunctionSpy).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('fnAsSingleton')).toBeTruthy();
+        expect(Deft.Injector.canResolve('fnAsSingleton')).toBe(true);
       });
       it('should be configurable with a factory function, (explicitly) as a singleton, eagerly', function() {
         var factoryFunctionSpy;
@@ -503,7 +490,7 @@ describe('Deft.ioc.Injector', function() {
         });
         expect(factoryFunctionSpy).toHaveBeenCalled();
         expect(expectedFnAsSingletonEagerlyInstance).toBeInstanceOf('ExampleClass');
-        expect(Deft.Injector.canResolve('fnAsSingletonEagerly')).toBeTruthy();
+        expect(Deft.Injector.canResolve('fnAsSingletonEagerly')).toBe(true);
       });
       it('should be configurable with a factory function, (explicitly) as a singleton, (explicitly) lazily', function() {
         var factoryFunctionSpy;
@@ -516,7 +503,7 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(factoryFunctionSpy).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('fnAsSingletonLazily')).toBeTruthy();
+        expect(Deft.Injector.canResolve('fnAsSingletonLazily')).toBe(true);
       });
       it('should be configurable with a factory function, as a prototype', function() {
         var factoryFunctionSpy;
@@ -528,7 +515,7 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(factoryFunctionSpy).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('fnAsPrototype')).toBeTruthy();
+        expect(Deft.Injector.canResolve('fnAsPrototype')).toBe(true);
       });
       it('should not be configurable with a factory function, as a prototype, eagerly', function() {
         expect(function() {
@@ -552,7 +539,7 @@ describe('Deft.ioc.Injector', function() {
           }
         });
         expect(factoryFunctionSpy).not.toHaveBeenCalled();
-        expect(Deft.Injector.canResolve('fnAsPrototypeLazily')).toBeTruthy();
+        expect(Deft.Injector.canResolve('fnAsPrototypeLazily')).toBe(true);
       });
       describe('Resolution of a dependency configured with a factory function', function() {
         it('should resolve a dependency configured with a factory function with the corresponding singleton return value', function() {
@@ -620,7 +607,7 @@ describe('Deft.ioc.Injector', function() {
           Deft.Injector.configure(createIdentifiedConfiguration(identifier, {
             value: value
           }));
-          expect(Deft.Injector.canResolve(identifier)).toBeTruthy();
+          expect(Deft.Injector.canResolve(identifier)).toBe(true);
         });
         it("should not be configurable with a " + type + " value, eagerly", function() {
           var identifier;
@@ -639,7 +626,7 @@ describe('Deft.ioc.Injector', function() {
             value: value,
             eager: false
           }));
-          expect(Deft.Injector.canResolve(identifier)).toBeTruthy();
+          expect(Deft.Injector.canResolve(identifier)).toBe(true);
         });
         it("should be configurable with a " + type + " value, (explicitly) as a singleton", function() {
           var identifier;
@@ -648,7 +635,7 @@ describe('Deft.ioc.Injector', function() {
             value: value,
             singleton: true
           }));
-          expect(Deft.Injector.canResolve(identifier)).toBeTruthy();
+          expect(Deft.Injector.canResolve(identifier)).toBe(true);
         });
         it("should not be configurable with a " + type + " value, (explicitly) as a singleton, eagerly", function() {
           var identifier;
@@ -669,7 +656,7 @@ describe('Deft.ioc.Injector', function() {
             singleton: true,
             eager: false
           }));
-          expect(Deft.Injector.canResolve(identifier)).toBeTruthy();
+          expect(Deft.Injector.canResolve(identifier)).toBe(true);
         });
         it("should not be configurable with a " + type + " value, as a prototype", function() {
           var identifier;
