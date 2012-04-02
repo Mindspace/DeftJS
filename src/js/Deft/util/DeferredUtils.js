@@ -9,7 +9,7 @@
 (function() {
   var __slice = Array.prototype.slice;
 
-  Ext.define('Deft.utils.DeferredUtils', {
+  Ext.define('Deft.util.DeferredUtils', {
     statics: {
       /**
       			Build an instance of a Deferred wrapped around a callback or value

@@ -5,7 +5,7 @@
   Static utility methods used for {@link Deft.promise.Promise} and {@link Deft.promise Deferred} functionality. Note that the Deft.ajax.* aliases are intended for use within Ajax, Proxy, Models, and fx.Anim classes
 
 ###
-Ext.define( 'Deft.utils.DeferredUtils',
+Ext.define( 'Deft.util.DeferredUtils',
 
 	statics:
 
