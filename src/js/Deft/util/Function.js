@@ -15,7 +15,9 @@ Open source under the [MIT License](http://en.wikipedia.org/wiki/MIT_License).
       spread: function(fn, scope) {
         return function(array) {
           if (!Ext.isArray(array)) {
-            Ext.Error.raise("Error spreading passed Array over target function arguments: passed a non-Array.");
+            Ext.Error.raise({
+              msg: "Error spreading passed Array over target function arguments: passed a non-Array."
+            });
           }
           return fn.apply(scope, array);
         };

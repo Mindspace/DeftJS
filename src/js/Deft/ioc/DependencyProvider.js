@@ -13,6 +13,7 @@ Used by {@link Deft.ioc.Injector}.
 (function() {
 
   Ext.define('Deft.ioc.DependencyProvider', {
+    requires: ['Deft.log.Logger'],
     config: {
       identifier: null,
       /**
@@ -51,15 +52,21 @@ Used by {@link Deft.ioc.Injector}.
       }
       if (this.getEager()) {
         if (this.getValue() != null) {
-          Ext.Error.raise("Error while configuring '" + (this.getIdentifier()) + "': a 'value' cannot be created eagerly.");
+          Ext.Error.raise({
+            msg: "Error while configuring '" + (this.getIdentifier()) + "': a 'value' cannot be created eagerly."
+          });
         }
         if (!this.getSingleton()) {
-          Ext.Error.raise("Error while configuring '" + (this.getIdentifier()) + "': only singletons can be created eagerly.");
+          Ext.Error.raise({
+            msg: "Error while configuring '" + (this.getIdentifier()) + "': only singletons can be created eagerly."
+          });
         }
       }
       if (!this.getSingleton()) {
         if (this.getValue() != null) {
-          Ext.Error.raise("Error while configuring '" + (this.getIdentifier()) + "': a 'value' can only be configured as a singleton.");
+          Ext.Error.raise({
+            msg: "Error while configuring '" + (this.getIdentifier()) + "': a 'value' can only be configured as a singleton."
+          });
         }
       }
       return this;
@@ -69,18 +76,20 @@ Used by {@link Deft.ioc.Injector}.
     */
     resolve: function(targetInstance) {
       var instance, parameters;
-      Ext.log("Resolving '" + (this.getIdentifier()) + "'.");
+      Deft.Logger.log("Resolving '" + (this.getIdentifier()) + "'.");
       if (this.getValue() != null) return this.getValue();
       instance = null;
       if (this.getFn() != null) {
-        Ext.log("Executing factory function.");
-        instance = this.fn(targetInstance);
+        Deft.Logger.log("Executing factory function.");
+        instance = this.getFn().call(null, targetInstance);
       } else if (this.getClassName() != null) {
-        Ext.log("Creating instance of '" + (this.getClassName()) + "'.");
+        Deft.Logger.log("Creating instance of '" + (this.getClassName()) + "'.");
         parameters = this.getParameters() != null ? [this.getClassName()].concat(this.getParameters()) : [this.getClassName()];
         instance = Ext.create.apply(this, parameters);
       } else {
-        Ext.Error.raise("Error while configuring rule for '" + (this.getIdentifier()) + "': no 'value', 'fn', or 'className' was specified.");
+        Ext.Error.raise({
+          msg: "Error while configuring rule for '" + (this.getIdentifier()) + "': no 'value', 'fn', or 'className' was specified."
+        });
       }
       if (this.getSingleton()) this.setValue(instance);
       return instance;
