@@ -13,6 +13,7 @@ Open source under the [MIT License](http://en.wikipedia.org/wiki/MIT_License).
 
   Ext.define('Deft.promise.Promise', {
     alternateClassName: ['Deft.Promise'],
+    requires: ['Deft.promise.Deferred'],
     statics: {
       /**
       		Returns a new {@link Deft.promise.Promise} with the specified callbacks registered to be called:

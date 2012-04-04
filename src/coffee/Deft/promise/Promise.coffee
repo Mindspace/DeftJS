@@ -10,6 +10,7 @@ Open source under the [MIT License](http://en.wikipedia.org/wiki/MIT_License).
 
 Ext.define( 'Deft.promise.Promise',
 	alternateClassName: [ 'Deft.Promise' ]
+	requires: [ 'Deft.promise.Deferred' ]
 
 	statics:
 

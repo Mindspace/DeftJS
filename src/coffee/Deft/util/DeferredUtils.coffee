@@ -6,7 +6,7 @@
 
 ###
 Ext.define( 'Deft.util.DeferredUtils',
-
+	requires: [ 'Deft.promise.Deferred', 'Deft.promise.Promise' ]
 	statics:
 
 		###*

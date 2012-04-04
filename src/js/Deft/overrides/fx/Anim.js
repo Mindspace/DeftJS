@@ -3,42 +3,6 @@
   @author Thomas Burleson
 
   Consider the scenario where we get a promise for user details (loaded from server):
-
-		function loadPage() {
-
-			// Build proxy and operation
-
-			var proxy = Ext.create('Ext.data.proxy.Ajax',
-							{
-								url : 'userDetails.php'
-							}
-						),
-				operation = Ext.create('Ext.data.Operation',
-					{
-						action : 'read',
-						params : { id : 21323 }
-					}
-				);
-
-			// Issue the Ajax/XHR request, then return
-			// a promise to allow extra response notifications
-
-			return proxy.doRequest( operation )
-				 .promise()
-				 .then (
-					// intercept response and extract data
-					function (response) {
-						return (response.success) ?
-							   response.data      :
-							   throw new Error("Call failed!");
-					},
-					// extract fault message
-					function (fault){
-						return fault.message;
-					}
-				 );
-
-		}
 */
 
 (function() {

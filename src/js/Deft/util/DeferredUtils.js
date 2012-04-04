@@ -10,6 +10,7 @@
   var __slice = Array.prototype.slice;
 
   Ext.define('Deft.util.DeferredUtils', {
+    requires: ['Deft.promise.Deferred', 'Deft.promise.Promise'],
     statics: {
       /**
       			Build an instance of a Deferred wrapped around a callback or value
