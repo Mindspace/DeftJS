@@ -937,6 +937,19 @@ Open source under the [MIT License](http://en.wikipedia.org/wiki/MIT_License).
         return dfd;
       },
       /**
+      			Build an instance of a Deferred that is immediately cancelled.
+      			This is useful for activity that fails to build an desired promise but the
+      			activity watchers still expect a promise instance.
+      
+      			@param {string} reason  Why has the promise been cancelled?
+      			@return {Deft.promise.Promise} Promise, read-only instance
+      */
+      cancelled: function(reason) {
+        return this.defer(function(dfd) {
+          return dfd.cancel(reason);
+        }).promise();
+      },
+      /**
       			Returns a new {@link Deft.promise.Promise} for the specified function/continuation/value, after the specified delay time. If the argument is
       			a function, the response to the function invocation will be used to resolve the
       			Deferred.
