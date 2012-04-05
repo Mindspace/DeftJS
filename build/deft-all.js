@@ -741,6 +741,7 @@ Open source under the [MIT License](http://en.wikipedia.org/wiki/MIT_License).
 
   Ext.define('Deft.promise.Promise', {
     alternateClassName: ['Deft.Promise'],
+    requires: ['Deft.promise.Deferred'],
     statics: {
       /**
       		Returns a new {@link Deft.promise.Promise} with the specified callbacks registered to be called:
@@ -915,6 +916,7 @@ Open source under the [MIT License](http://en.wikipedia.org/wiki/MIT_License).
   */
 
   Ext.define('Deft.util.DeferredUtils', {
+    requires: ['Deft.promise.Deferred', 'Deft.promise.Promise'],
     statics: {
       /**
       			Build an instance of a Deferred wrapped around a callback or value
@@ -933,6 +935,19 @@ Open source under the [MIT License](http://en.wikipedia.org/wiki/MIT_License).
           if (callback != null) callback.apply(null, [dfd].concat(rest));
         }
         return dfd;
+      },
+      /**
+      			Build an instance of a Deferred that is immediately cancelled.
+      			This is useful for activity that fails to build an desired promise but the
+      			activity watchers still expect a promise instance.
+      
+      			@param {string} reason  Why has the promise been cancelled?
+      			@return {Deft.promise.Promise} Promise, read-only instance
+      */
+      cancelled: function(reason) {
+        return this.defer(function(dfd) {
+          return dfd.cancel(reason);
+        }).promise();
       },
       /**
       			Returns a new {@link Deft.promise.Promise} for the specified function/continuation/value, after the specified delay time. If the argument is
@@ -1491,42 +1506,6 @@ Open source under the [MIT License](http://en.wikipedia.org/wiki/MIT_License).
     @author Thomas Burleson
   
     Consider the scenario where we get a promise for user details (loaded from server):
-  
-  		function loadPage() {
-  
-  			// Build proxy and operation
-  
-  			var proxy = Ext.create('Ext.data.proxy.Ajax',
-  							{
-  								url : 'userDetails.php'
-  							}
-  						),
-  				operation = Ext.create('Ext.data.Operation',
-  					{
-  						action : 'read',
-  						params : { id : 21323 }
-  					}
-  				);
-  
-  			// Issue the Ajax/XHR request, then return
-  			// a promise to allow extra response notifications
-  
-  			return proxy.doRequest( operation )
-  				 .promise()
-  				 .then (
-  					// intercept response and extract data
-  					function (response) {
-  						return (response.success) ?
-  							   response.data      :
-  							   throw new Error("Call failed!");
-  					},
-  					// extract fault message
-  					function (fault){
-  						return fault.message;
-  					}
-  				 );
-  
-  		}
   */
 
   Ext.define('Deft.overrides.fx.Anim', {

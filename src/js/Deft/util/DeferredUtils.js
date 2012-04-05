@@ -10,6 +10,7 @@
   var __slice = Array.prototype.slice;
 
   Ext.define('Deft.util.DeferredUtils', {
+    requires: ['Deft.promise.Deferred', 'Deft.promise.Promise'],
     statics: {
       /**
       			Build an instance of a Deferred wrapped around a callback or value
@@ -28,6 +29,19 @@
           if (callback != null) callback.apply(null, [dfd].concat(rest));
         }
         return dfd;
+      },
+      /**
+      			Build an instance of a Deferred that is immediately cancelled.
+      			This is useful for activity that fails to build an desired promise but the
+      			activity watchers still expect a promise instance.
+      
+      			@param {string} reason  Why has the promise been cancelled?
+      			@return {Deft.promise.Promise} Promise, read-only instance
+      */
+      cancelled: function(reason) {
+        return this.defer(function(dfd) {
+          return dfd.cancel(reason);
+        }).promise();
       },
       /**
       			Returns a new {@link Deft.promise.Promise} for the specified function/continuation/value, after the specified delay time. If the argument is

@@ -6,7 +6,7 @@
 
 ###
 Ext.define( 'Deft.util.DeferredUtils',
-
+	requires: [ 'Deft.promise.Deferred', 'Deft.promise.Promise' ]
 	statics:
 
 		###*
@@ -26,6 +26,18 @@ Ext.define( 'Deft.util.DeferredUtils',
 
 			return dfd
 
+		###*
+			Build an instance of a Deferred that is immediately cancelled.
+			This is useful for activity that fails to build an desired promise but the
+			activity watchers still expect a promise instance.
+
+			@param {string} reason  Why has the promise been cancelled?
+			@return {Deft.promise.Promise} Promise, read-only instance
+		###
+		cancelled : (reason) ->
+			return @defer( (dfd) ->
+				dfd.cancel( reason )
+			).promise()
 
 		###*
 			Returns a new {@link Deft.promise.Promise} for the specified function/continuation/value, after the specified delay time. If the argument is
@@ -142,8 +154,8 @@ Ext.define( 'Deft.util.DeferredUtils',
 	# Callback invoked after the Ext.define() completes
 	->
 		# Alias shorthands
-		Deft.defer = @defer
-		Deft.wait  = @wait
+		Deft.defer   = @defer
+		Deft.wait    = @wait
 		Deft.ajax  =		 # methods for Ext.Ajax, Ext.proxy.*, etc
 			hookCallbacks  : @hookRequestCallbacks
 			createCallback : @createOperationCallback
