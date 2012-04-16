@@ -36,10 +36,6 @@ task "build", "Compiles Coffescript & Less... no joins or minifications", ->
 		if error
 			throw error
 		else
-			exec "#{ TOOLS }/coffee --join #{ DEFT_LIB } --output #{ DEFT_JS } --compile #{ DEFT_SRC }/log  #{ DEFT_SRC }/ioc #{ DEFT_SRC }/mixin #{ DEFT_SRC }/mvc #{ DEFT_SRC }/promise #{ DEFT_SRC }/util #{ DEFT_SRC }/overrides" , ( error, stdout, stderr ) ->
+			exec "#{ TOOLS }/coffee --join #{ DEFT_LIB } --output #{ DEFT_JS } --compile #{ DEFT_SRC }/log  #{ DEFT_SRC }/ioc #{ DEFT_SRC }/mvc #{ DEFT_SRC }/mixin #{ DEFT_SRC }/promise #{ DEFT_SRC }/util" , ( error, stdout, stderr ) ->
 				console.log stdout + stderr if stdout or stderr
-				if error
-					throw error
-				else
-					exec "cp  #{ DEFT_JOIN } #{ DEFT_LIB }"
-					exec "rm #{ DEFT_JOIN }"
+				exec "cp  #{ DEFT_JOIN } #{ DEFT_LIB }"
